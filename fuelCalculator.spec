@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['fuelCalculator.py'],
-             pathex=['D:\\Dropbox\\Pessoal\\SimRacing\\Fuel_Calculator'],
+             pathex=['D:\\Projects\\Python\\Fuel_Calculator'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True )
+          console=False , icon='img\\racing.ico')

@@ -1,43 +1,50 @@
-# howManyLaps
-# made in May/2020
+# Fuel Calculator
+# made in 2021
+# Author: Juan Caires
 
-from PySimpleGUI import PySimpleGUI as sg
+
+import PySimpleGUI as sg
 import math
 
+
 #Layout
-sg.theme("Reddit")
+sg.theme("Dark Grey")
+
 layout = [
-    [sg.Text("Leader's race pace [min:seg.dec]: "), sg.Input(key='lapString')],
+    [sg.Text("Leader's race pace [min:sec.dec]: "), sg.Input(key='lapString')],
     [sg.Text('Race lenght [minutes]: '), sg.Input(key='raceTime')],
-    [sg.Text('Type your fuel consuptiom [L/Lap]: '), sg.Input(key='fuelConsumption')],   
+    [sg.Text('Fuel consumption [L/Lap]: '), sg.Input(key='fuelConsumption')],   
     [sg.Button('Calculate!')],
-    [sg.Output(size = (40, 20))],
+    [sg.Output(size = (50, 3), font = '\b',key= '-OUTPUT-')],
 ]
 
 
 #App window
-window = sg.Window('Fuel Calculator', layout)
+window = sg.Window('Fuel Calculator', layout, icon=r'.\img\racing.ico')
 
 
 #Event reading and loop
 while True:
     events, values = window.read()
-#    lapString = str(input("Type the leader's rsace pace [min:seg.dec]: "))
-#    raceTime = float(input("Type the race lenght [minutes]: "))
-#    fuelConsumption = float(input("Type your car's fuel comsuption [L/Lap]: "))
 
     if events == sg.WINDOW_CLOSED:
         break
 
-    minutes = values['lapString'].split(':', -1)[0]
-    seconds = values['lapString'].split(':', -1)[1]
+    if events == 'Calculate!':
+        window['-OUTPUT-'].update(value='')             # Clearing the output window
 
-    averageLapInSeconds = (float(minutes) * 60) + float(seconds)
+        minutes = values['lapString'].split(':', -1)[0]
+        seconds = values['lapString'].split(':', -1)[1]
 
-    raceTimeInSeconds = int(values['raceTime']) * 60
+#        if type(minutes) != int and type(seconds) != int:
+#            print(f'Error reading data. Please review your inputs.')
 
-    lapsNumber = raceTimeInSeconds/averageLapInSeconds
-    totalFuel = lapsNumber * float(values['fuelConsumption'])
+        averageLapInSeconds = (float(minutes) * 60) + float(seconds)
 
-    print(f'Estimated race laps: {math.ceil(lapsNumber)} laps')
-    print(f'Total race fuel needed: {math.ceil(totalFuel)} Liters')
+        raceTimeInSeconds = int(values['raceTime']) * 60
+
+        lapsNumber = raceTimeInSeconds/averageLapInSeconds
+        totalFuel = lapsNumber * float(values['fuelConsumption'])
+
+        print(f'Estimated race laps: {math.ceil(lapsNumber)} laps')
+        print(f'Total race fuel needed: {math.ceil(totalFuel)} Liters')
