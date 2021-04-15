@@ -12,7 +12,7 @@ sg.theme("Dark Grey")
 
 layout = [
     [sg.Text("Leader's race pace [min:sec]: "), sg.Input(key='lapString')],
-    [sg.Text('Race lenght [minutes]: '), sg.Input(key='raceTime')],
+    [sg.Text('Race length [minutes]: '), sg.Input(key='raceTime')],
     [sg.Text('Fuel consumption [L/Lap]: '), sg.Input(key='fuelConsumption')],   
     [sg.Button('Calculate!')],
     [sg.Output(size = (40, 5), font = '\b',key= '-OUTPUT-')],
