@@ -33,7 +33,7 @@ col_11 = [
 
 # Center column (car image)
 col_12 = [
-    [sg.Image(r'D:\Projects\Python\Sim Racing Tools\img\racing_car.png')]
+    [sg.Image(r'D:\Projects\Python\Sim-Racing-Tools\img\racing_car.png')]
 ]
 
 # Left column (right side tyres)
@@ -62,7 +62,7 @@ layoutTyrePress = [
 
 mainLayout = [
     [sg.TabGroup([[sg.Tab('Fuel', layoutFuelCalc), sg.Tab('Tyre Pressures', layoutTyrePress)]])],
-    [sg.Output(size = (40, 1), font = '\b',key= '-OUTPUT-')]
+    [sg.Output(size = (42, 1), font = '\b',key= '-OUTPUT-')]
 ]
 
 #App window

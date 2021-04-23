@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['simRacingTools.py'],
-             pathex=['D:\\Projects\\Python\\Sim Racing Tools'],
+             pathex=['D:\\Projects\\Python\\Sim-Racing-Tools'],
              binaries=[],
              datas=[],
              hiddenimports=[],
