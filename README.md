@@ -1,4 +1,3 @@
-# Fuel_Calculator
-Fuel calculator for SimRacing users
+# Sim-Racing-Tools
 
-Just a tiny little project for calculating fuel for Sim Racers! :)
+Just a tiny little project for calculating some things for Sim Racers! :)
