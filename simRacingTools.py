@@ -16,9 +16,10 @@ layoutFuelCalc = [
     [sg.Text('Race length [minutes]: '), sg.Input(key='raceTime')],
     [sg.Text('Fuel consumption [L/Lap]: '), sg.Input(key='fuelConsumption')],   
     [sg.Button('Calculate fuel!')],
-    [sg.Text("Estimated laps:", size=(15, 1), font='\b'),              sg.Text(key='lapsNumber', size=(10, 1), font='\b')],
-    [sg.Text("Fuel needed:", size=(15, 1), font='\b'),                 sg.Text(key='totalFuel', size=(10, 1), font='\b')],
-    [sg.Text("Safety fuel:", size=(15, 1), font='\b'),      sg.Text(key='safetyFuel', size=(10, 1), font='\b')],
+    [sg.Text("Estimated laps:", size=(20, 1), font='\b'),              sg.Text(key='lapsNumber', size=(10, 1), font='\b')],
+    [sg.Text("Fuel needed:", size=(20, 1), font='\b'),                 sg.Text(key='totalFuel', size=(10, 1), font='\b')],
+    [sg.Text("Safety fuel:", size=(20, 1), font='\b'),      sg.Text(key='safetyFuel', size=(10, 1), font='\b')],
+    [sg.Text("Chance of an extra lap?", size=(20, 1), font='\b'),      sg.Text(key='extraLapChance', size=(10, 1), font='\b')]
 ]
 
 # Layout for the Tyre Pressures calculator
@@ -33,7 +34,7 @@ col_11 = [
 
 # Center column (car image)
 col_12 = [
-    [sg.Image(r'D:\Projects\Python\Sim-Racing-Tools\img\racing_car.png')]
+#    [sg.Image(r'.\img\racing_car.png')]
 ]
 
 # Left column (right side tyres)
@@ -97,10 +98,16 @@ while True:
                 raceTimeInSeconds = int(values['raceTime']) * 60
                 lapsNumber = raceTimeInSeconds/averageLapInSeconds
                 totalFuel = lapsNumber * float(values['fuelConsumption'])
-                safetyFuel = totalFuel + float(values['fuelConsumption'])               # Plus one lap of fuel, for safety
+                safetyFuel = totalFuel + float(values['fuelConsumption'])               # Plus one lap of fuel, for user safety
                 window['lapsNumber'].update(str(math.ceil(lapsNumber)) + " laps")
                 window['totalFuel'].update(str(math.ceil(totalFuel)) + " Liters")
                 window['safetyFuel'].update(str(math.ceil(safetyFuel)) + " Liters")
+                if (math.ceil(lapsNumber) - lapsNumber) >= 0.8 :                        # Extra lap chance estimator
+                    window['extraLapChance'].update("High!")
+                elif (math.ceil(lapsNumber) - lapsNumber) < 0.8 and (math.ceil(lapsNumber) - lapsNumber) > 0.3:
+                    window['extraLapChance'].update("Medium!")
+                else:
+                    window['extraLapChance'].update("Low!")
             else:
                 print(f'Data formats are wrong. Please review your inputs.')            # If not, the user will need to check his inputs
 
