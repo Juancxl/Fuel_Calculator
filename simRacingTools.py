@@ -59,10 +59,22 @@ layoutTyrePress = [
 ]
 
 
+
+# Layout for Fuel Timer estimator
+layoutFuelTimer = [
+    [sg.Text("Leader's race pace [min:sec]: "), sg.Input(key='lapString1')],
+    [sg.Text('Fuel consumption [L/Lap]: '), sg.Input(key='fuelConsumption1')],
+    [sg.Text('Fuel tank [L]: '), sg.Input(key='fuelTank')],   
+    [sg.Button('Calculate fuel time!')],
+    [sg.Text("Fuel time:", size=(10, 1), font='\b'),              sg.Text(key='fuelTime', size=(25, 1), font='\b')]
+]
+
+
+
 #Main Window Layout
 
 mainLayout = [
-    [sg.TabGroup([[sg.Tab('Fuel', layoutFuelCalc), sg.Tab('Tyre Pressures', layoutTyrePress)]])],
+    [sg.TabGroup([[sg.Tab('Fuel', layoutFuelCalc), sg.Tab('Fuel timer', layoutFuelTimer), sg.Tab('Tyre Pressures', layoutTyrePress)]])],
     [sg.Output(size = (42, 1), font = '\b',key= '-OUTPUT-')]
 ]
 
@@ -88,17 +100,19 @@ while True:
         window['lapsNumber'].update(value='')
         window['totalFuel'].update(value='')
         window['safetyFuel'].update(value='')
+        window['fuelTime'].update(value='')
 
         try:                                            # Reading the user inputs
             minutes = values['lapString'].split(':', -1)[0]
             seconds = values['lapString'].split(':', -1)[1]
 
-            if len(minutes) == 1 and len(seconds) == 2 and minutes.isnumeric() and seconds.isnumeric():    # Checking if the input data format is correct
+            if len(minutes) == 1 and len(seconds) == 2 and int(seconds) < 60 and minutes.isnumeric() and seconds.isnumeric():    # Checking if the input data format is correct
                 averageLapInSeconds = (float(minutes) * 60) + float(seconds)            # If yes, then the app will do his thing
                 raceTimeInSeconds = int(values['raceTime']) * 60
                 lapsNumber = raceTimeInSeconds/averageLapInSeconds
                 totalFuel = lapsNumber * float(values['fuelConsumption'])
                 safetyFuel = totalFuel + float(values['fuelConsumption'])               # Plus one lap of fuel, for user safety
+                fuelTime = ((averageLapInSeconds/60)/float(values['fuelConsumption'])) * totalFuel      # How many minutes you will stay on track with the given fuel
                 window['lapsNumber'].update(str(math.ceil(lapsNumber)) + " laps")
                 window['totalFuel'].update(str(math.ceil(totalFuel)) + " Liters")
                 window['safetyFuel'].update(str(math.ceil(safetyFuel)) + " Liters")
@@ -143,3 +157,21 @@ while True:
             print(f'Error reading Tyre data. Please review your inputs.')
         except ValueError:                              # Something went wrong with the user inputs (2)
             print(f'Error reading Tyre data. Please review your inputs. ')
+
+    if events == 'Calculate fuel time!':
+        window['-OUTPUT-'].update(value='')             # Clearing the output windows
+        window['fuelTime'].update(value='')
+
+        try:                                            # Reading the user inputs
+            minutes1 = values['lapString1'].split(':', -1)[0]
+            seconds1 = values['lapString1'].split(':', -1)[1]
+            if len(minutes1) == 1 and len(seconds1) == 2 and int(seconds1) < 60 and minutes1.isnumeric() and seconds1.isnumeric():    # Checking if the input data format is correct
+                averageLapInSeconds1 = (float(minutes1) * 60) + float(seconds1)
+                fuelTime = ((averageLapInSeconds1/60)/float(values['fuelConsumption1'])) * int(values['fuelTank'])      # How many minutes you will stay on track with the given fuel
+                window['fuelTime'].update("Aprox. " + str(math.ceil(fuelTime)) + " minutes of fuel")
+            else:
+                print(f'Data formats are wrong. Please review your inputs.')            # If not, the user will need to check his inputs
+        except IndexError:                              # Something went wrong with the user inputs
+            print(f'Error reading Fuel data. Please review your inputs.')
+        except ValueError:                              # Something went wrong with the user inputs (2)
+            print(f'Error reading Fuel data. Please review your inputs. ')
